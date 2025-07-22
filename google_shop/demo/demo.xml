@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) 2016-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>;) -->
+<!-- See LICENSE file for full copyright and licensing details. -->
+<!-- License URL : https://store.webkul.com/license.html/ -->
+<odoo>
+    <data noupdate="1">
+
+        <record id="oauth2_detail_1" model="oauth2.detail">
+            <field name="name">Token 1</field>
+            <field name="domain_url">http://www.example.com</field>
+            <field name="callback_url">http://www.example.com/google/1/OAuth2/</field>
+            <field name="client_id">******************************************</field>
+            <field name="client_secret">**************</field>
+            <field name="merchant_id">********</field>
+            <field name="authentication_state">new</field>
+        </record>
+
+        <record id="google_shop_1" model="google.shop">
+            <field name="oauth_id" ref="oauth2_detail_1"/>
+            <field name="name">Demo Shop 1</field>
+            <field name="field_mapping_id" ref="field_mapping_1"/>
+            <field name="channel">online</field>
+            <field name="product_selection_type">domain</field>
+            <field name="shop_status">new</field>
+            <field model="res.lang" name="content_language" search="[('code', '=', 'en_US')]"/>
+            <field model="res.country" name="target_country" search="[('name', '=', 'India')]"/>
+            <field name="limit">10</field>
+            <field name="shop_url">https://www.example.com</field>
+        </record>
+
+    </data>
+</odoo>

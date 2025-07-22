@@ -1,0 +1,16 @@
+<odoo>
+    <record id="inherit_product_variant_easy_edit_view" model="ir.ui.view">
+        <field name="name">product.product.view.form.easy</field>
+        <field name="model">product.product</field>
+        <field name="inherit_id" ref="product.product_normal_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//notebook[last()]" position="inside">
+                <page string="Google Shop" name="google_shop">
+                    <group>
+                        <field name="google_shop_product_categ"/>
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+</odoo>

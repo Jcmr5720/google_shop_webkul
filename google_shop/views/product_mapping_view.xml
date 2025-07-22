@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) 2016-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>;) -->
+<!-- See LICENSE file for full copyright and licensing details. -->
+<!-- License URL : https://store.webkul.com/license.html/ -->
+<odoo>
+    <record model="ir.ui.view" id="product_mapping_form">
+        <field name="name">Product Mapping Form</field>
+        <field name="model">product.mapping</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <form string="Product Mapping Form" create="false">
+                <header>
+                    <field name="product_status" widget="statusbar" />
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="product_get_status_server_action" class="oe_stat_button" type="object" icon="fa-play">
+                            <div class="o_stat_info o_field_widget">
+                                <span class="text-success">Product Status</span>
+                            </div>
+                        </button>
+                    </div>
+                    <field name="image_128" widget="image" class="oe_avatar"/>
+                    <group string="Basic Details">
+                        <group>
+                            <field name="google_shop_id" />
+                            <field name="product_id" />
+                            <field name="update_status" />
+                        </group>
+                        <group>
+                            <field name="google_product_id" />
+                            <field name="message"/>
+                            <field name="id" invisible="1"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Merchant Center Status">
+                            <group>
+                                <group>
+                                    <field name="create_date" readonly="True"/>
+                                    <field name="__last_update" readonly="True"/>
+                                    <field name="product_expire_date_on_mc" readonly="True"/>
+                                    <field name="target_country" readonly="True"/>
+                                    <field name="content_language" readonly="True"/>
+                                </group>
+                                <group>
+                                    <field name="destination_status" readonly="True"/>
+                                    <field name="approvedCountries" readonly="True"/>
+                                    <field name="pendingCountries" readonly="True"/>
+                                    <field name="disapproved_countries" readonly="True"/>
+                                </group>
+                            </group>
+                        </page>
+                        <page string="Item Level Issues">
+                            <group>
+                                <field name="wk_fetched_issues" readonly="True"/>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="product_mapping_search" model="ir.ui.view">
+        <field name="name">Product Mapping Search</field>
+        <field name="model">product.mapping</field>
+        <field name="arch" type="xml">
+            <search string="Search Product By Shop">
+                <field name="google_shop_id"/>
+                <field name="target_country" readonly="True"/>
+                <filter string="Google Product" name="google_shop" domain="[]" context="{'group_by': 'google_shop_id'}" />
+                <filter string="Google Shop" name="google_shop" domain="[]" context="{'group_by': 'product_status'}" />
+                <filter string="target country" name="google_shop" domain="[]" context="{'group_by': 'target_country'}" />
+            </search>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="product_mapping_tree">
+        <field name="name">Product Mappping Tree</field>
+        <field name="model">product.mapping</field>
+        <field name="type">tree</field>
+        <field name="arch" type="xml">
+            <tree decoration-danger="product_status=='error'" decoration-info="product_status=='updated'" create="false" edit="false">
+                <field name="product_status" invisible="1"/>
+                <field name="__last_update"/>
+                <field name="target_country" readonly="True"/>
+                <field name="google_shop_id" />
+                <field name="product_id" />
+                <field name="update_status" />
+                <field name="google_product_id" />
+                <field name="message" />
+                <field name="id" invisible="1"/>
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="product_mapping_action">
+        <field name="name">Product Mapping</field>
+        <field name="res_model">product.mapping</field>
+        <field name="context">{'search_default_google_shop': 1}</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="product_mapping_tree" />
+    </record>
+
+    <record model="ir.actions.act_window" id="product_mapping_action_button_click">
+        <field name="name">Product Mapping</field>
+        <field name="res_model">product.mapping</field>
+        <field name="context">{'search_default_google_shop': 1}</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="product_mapping_tree" />
+    </record>
+    
+    <record id="product_mapping_server_action" model="ir.actions.server">
+        <field name='name'>Update Product status</field>
+        <field name="model_id" ref="google_shop.model_product_mapping"/>
+        <field name="binding_model_id" ref="google_shop.model_product_mapping"/>
+        <field name="state">code</field>
+        <field name="code">  
+            action = records.product_map_status_server_action()
+        </field>
+    </record>
+
+    <record id="product_status_fetch_server_action" model="ir.actions.server">
+        <field name='name'>Fetch Product status</field>
+        <field name="model_id" ref="google_shop.model_product_mapping"/>
+        <field name="binding_model_id" ref="google_shop.model_product_mapping"/>
+        <field name="state">code</field>
+        <field name="code">  
+            action = records.product_get_status_server_action()
+        </field>
+    </record>
+
+
+    <menuitem name="Product Mapping" id= "product_mapping_menu" parent="mappings_fields" action="product_mapping_action" sequence="1"/>
+</odoo>

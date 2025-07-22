@@ -1,0 +1,261 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) 2016-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>;) -->
+<!-- See LICENSE file for full copyright and licensing details. -->
+<!-- License URL : https://store.webkul.com/license.html/ -->
+<odoo>
+    <data noupdate="1">
+        <record id="property_data_name_1" model="property.data.name">
+            <field name="name">value</field>
+        </record>
+        <record id="property_data_name_4" model="property.data.name">
+            <field name="name">unit</field>
+        </record>
+        <record id="property_data_name_2" model="property.data.name">
+            <field name="name">currency</field>
+        </record>
+        
+        <record id="google_fields_16" model="google.fields">
+            <field name="name">id</field>
+            <field name="required">True</field>
+        </record>
+        <record id="google_fields_1" model="google.fields">
+            <field name="name">offerId</field>
+            <field name="required">True</field>
+        </record>
+        <record id="google_fields_2" model="google.fields">
+            <field name="name">title</field>
+            <field name="required">True</field>
+        </record>
+        <record id="google_fields_3" model="google.fields">
+            <field name="name">description</field>
+            <field name="required">True</field>
+        </record>
+        <record id="google_fields_4" model="google.fields">
+            <field name="name">link</field>
+            <field name="required">True</field>
+            <field name="is_link_field">True</field>
+        </record>
+        <record id="google_fields_5" model="google.fields">
+            <field name="name">imageLink</field>
+            <field name="required">True</field>
+            <field name="is_link_field">True</field>
+        </record>
+        <record id="google_fields_8" model="google.fields">
+            <field name="name">availability</field>
+            <field name="required">True</field>
+        </record>
+        <record id="google_fields_9" model="google.fields">
+            <field name="name">gtin</field>
+            <field name="required">False</field>
+        </record>
+        <record id="google_fields_10" model="google.fields">
+            <field name="name">condition</field>
+            <field name="required">True</field>
+        </record>
+        <record id="google_fields_11" model="google.fields">
+            <field name="name">googleProductCategory</field>
+            <field name="required">False</field>
+        </record>
+        <record id="google_fields_12" model="google.fields">
+            <field name="name">price</field>
+            <field name="required">True</field>
+            <field name="field_type">object</field>
+        </record>
+        <record id="google_fields_13" model="google.fields">
+            <field name="name">salePrice</field>
+            <field name="required">False</field>
+            <field name="field_type">object</field>
+        </record>
+
+        <record id="field_property_data_3" model="field.property.data">
+            <field name="name" ref="property_data_name_1"/>
+            <field name="google_field_id" ref="google_fields_13"/>
+            <field name="field_type">string</field>
+        </record>
+
+        <record id="field_property_data_4" model="field.property.data">
+            <field name="name" ref="property_data_name_2"/>
+            <field name="google_field_id" ref="google_fields_13"/>
+            <field name="field_type">string</field>
+        </record>
+
+        <record id="field_property_data_5" model="field.property.data">
+            <field name="name" ref="property_data_name_1"/>
+            <field name="google_field_id" ref="google_fields_12"/>
+            <field name="field_type">string</field>
+        </record>
+        <record id="field_property_data_6" model="field.property.data">
+            <field name="name" ref="property_data_name_2"/>
+            <field name="google_field_id" ref="google_fields_12"/>
+            <field name="field_type">string</field>
+        </record>
+
+        <record id="google_fields_14" model="google.fields">
+            <field name="name">brand</field>
+            <field name="required">False</field>
+        </record>
+        <record id="google_fields_15" model="google.fields">
+            <field name="name">color</field>
+            <field name="required">False</field>
+        </record>
+        <record id="google_fields_18" model="google.fields">
+            <field name="name">kind</field>
+            <field name="required">False</field>
+        </record>
+        <record id="google_fields_19" model="google.fields">
+            <field name="name">sizes</field>
+            <field name="required">False</field>
+        </record>
+        <record id="google_fields_20" model="google.fields">
+            <field name="name">gender</field>
+            <field name="required">False</field>
+        </record>
+        <record id="google_fields_21" model="google.fields">
+            <field name="name">size_type</field>
+            <field name="required">False</field>
+        </record>
+        <record id="google_fields_22" model="google.fields">
+            <field name="name">size_system</field>
+            <field name="required">False</field>
+        </record>
+        <record id="google_fields_17" model="google.fields">
+            <field name="name">shippingWeight</field>
+            <field name="field_type">object</field>
+        </record>
+
+        <record id="field_property_data_1" model="field.property.data">
+            <field name="name" ref="property_data_name_1"/>
+            <field name="google_field_id" ref="google_fields_17"/>
+            <field name="field_type">number</field>
+        </record>
+
+        <record id="field_property_data_2" model="field.property.data">
+            <field name="name" ref="property_data_name_4"/>
+            <field name="google_field_id" ref="google_fields_17"/>
+            <field name="field_type">string</field>
+        </record>
+
+        <record id="field_mapping_1" model="field.mapping">
+            <field name="name">Field Mapping</field>
+            <field name="active">True</field>
+        </record>
+
+        <record id="field_mapping_2" model="field.mapping">
+            <field name="name">Object Field Mapping</field>
+            <field name="active">True</field>
+            <field name="mapping_type">object_field_mapping</field>
+        </record>
+
+        <record id="field_mapping_line_1" model="field.mapping.line">
+            <field name="google_field_id" ref="google_fields_1"/>
+            <field model="ir.model.fields" name="model_field_id" search="[('model', '=', 'product.product'),('name','=','default_code')]"/>
+            <field name="field_mapping_id" ref="field_mapping_1"/>
+            <field name="fixed_text">none</field>
+        </record>
+
+        <record id="field_mapping_line_2" model="field.mapping.line">
+            <field name="google_field_id" ref="google_fields_2"/>
+            <field model="ir.model.fields" name="model_field_id" search="[('model', '=', 'product.product'),('name','=','name')]"/>
+            <field name="field_mapping_id" ref="field_mapping_1"/>
+            <field name="fixed_text">none</field>
+        </record>
+
+        <record id="field_mapping_line_3" model="field.mapping.line">
+            <field name="google_field_id" ref="google_fields_16"/>
+            <field model="ir.model.fields" name="model_field_id" search="[('model', '=', 'product.product'),('name','=','id')]"/>
+            <field name="field_mapping_id" ref="field_mapping_1"/>
+            <field name="fixed_text">none</field>
+        </record>
+
+        <record id="field_mapping_line_4" model="field.mapping.line">
+            <field name="google_field_id" ref="google_fields_4"/>
+            <field name="field_mapping_id" ref="field_mapping_1"/>
+            <field name="fixed_text">none</field>
+        </record>
+
+        <record id="field_mapping_line_5" model="field.mapping.line">
+            <field name="google_field_id" ref="google_fields_5"/>
+            <field name="field_mapping_id" ref="field_mapping_1"/>
+            <field name="fixed_text">none</field>
+        </record>
+
+        <record id="field_mapping_line_6" model="field.mapping.line">
+            <field name="google_field_id" ref="google_fields_3"/>
+            <field model="ir.model.fields" name="model_field_id" search="[('model', '=', 'product.product'),('name','=','website_meta_description')]"/>
+            <field name="field_mapping_id" ref="field_mapping_1"/>
+            <field name="fixed_text">none</field>
+        </record>
+
+        <record id="field_mapping_line_9" model="field.mapping.line">
+            <field name="google_field_id" ref="google_fields_8"/>
+            <field name="field_type_value">fixed</field>
+            <field name="field_mapping_id" ref="field_mapping_1"/>
+            <field name="fixed_text">in stock</field>
+        </record>
+
+        <record id="field_mapping_line_10" model="field.mapping.line">
+            <field name="google_field_id" ref="google_fields_10"/>
+            <field name="field_type_value">fixed</field>
+            <field name="field_mapping_id" ref="field_mapping_1"/>
+            <field name="fixed_text">new</field>
+        </record>
+
+        <record id="field_mapping_line_11" model="field.mapping.line">
+            <field name="google_field_id" ref="google_fields_13"/>
+            <field name="field_mapping_id" ref="field_mapping_1"/>
+            <field model="ir.model.fields" name="model_field_id" search="[('model', '=', 'product.product'),('name','=','list_price')]"/>
+            <field name="fixed_text">none</field>
+        </record>
+
+        <record id="field_mapping_line_12" model="field.mapping.line">
+            <field name="google_field_id" ref="google_fields_12"/>
+            <field model="ir.model.fields" name="model_field_id" search="[('model', '=', 'product.product'),('name','=','lst_price')]"/>
+            <field name="field_mapping_id" ref="field_mapping_1"/>
+            <field name="fixed_text">none</field>
+        </record>
+
+        <record id="field_mapping_line_13" model="field.mapping.line">
+            <field name="google_field_id" ref="google_fields_17"/>
+            <field model="ir.model.fields" name="model_field_id" search="[('model', '=', 'product.product'),('name','=','weight_uom_name')]"/>
+            <field name="field_mapping_id" ref="field_mapping_1"/>
+            <field name="fixed_text">none</field>
+        </record>
+
+        <record id="property_field_mapping_line_1" model="property.field.mapping.line">
+            <field name="field_property_data_id" ref="field_property_data_5"/>
+            <field name="google_property_field_id" ref="field_mapping_line_12"/>
+            <field model="ir.model.fields" name="odoo_field_id" search="[('model', '=', 'product.product'),('name','=','lst_price')]"/>
+        </record>
+
+        <record id="property_field_mapping_line_2" model="property.field.mapping.line">
+            <field name="field_property_data_id" ref="field_property_data_6"/>
+            <field name="google_property_field_id" ref="field_mapping_line_12"/>
+            <field model="ir.model.fields" name="odoo_field_id" search="[('model', '=', 'product.product'),('name','=','currency_id')]"/>
+        </record>
+
+        <record id="property_field_mapping_line_3" model="property.field.mapping.line">
+            <field name="field_property_data_id" ref="field_property_data_3"/>
+            <field name="google_property_field_id" ref="field_mapping_line_11"/>
+            <field model="ir.model.fields" name="odoo_field_id" search="[('model', '=', 'product.product'),('name','=','list_price')]"/>
+        </record>
+
+        <record id="property_field_mapping_line_4" model="property.field.mapping.line">
+            <field name="field_property_data_id" ref="field_property_data_4"/>
+            <field name="google_property_field_id" ref="field_mapping_line_11"/>
+            <field model="ir.model.fields" name="odoo_field_id" search="[('model', '=', 'product.product'),('name','=','currency_id')]"/>
+        </record>
+
+        <record id="property_field_mapping_line_5" model="property.field.mapping.line">
+            <field name="field_property_data_id" ref="field_property_data_1"/>
+            <field name="google_property_field_id" ref="field_mapping_line_13"/>
+            <field name="field_type">number</field>
+            <field model="ir.model.fields" name="odoo_field_id" search="[('model', '=', 'product.product'),('name','=','weight')]"/>
+        </record>
+
+        <record id="property_field_mapping_line_6" model="property.field.mapping.line">
+            <field name="field_property_data_id" ref="field_property_data_2"/>
+            <field name="google_property_field_id" ref="field_mapping_line_13"/>
+            <field model="ir.model.fields" name="odoo_field_id" search="[('model', '=', 'product.product'),('name','=','weight_uom_name')]"/>
+        </record>
+    </data>
+</odoo>

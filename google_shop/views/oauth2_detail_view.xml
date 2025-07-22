@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) 2016-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>;) -->
+<!-- See LICENSE file for full copyright and licensing details. -->
+<!-- License URL : https://store.webkul.com/license.html/ -->
+<odoo>
+    <data>
+        <!-- mail template send portion -->
+        <record id="google_shop_mail_template" model="mail.template">
+            <field name="name">Reauthorize refresh token</field>
+            <field name="subject">Regarding Refresh Token Expire alert</field>
+            <field name="email_from">{{object.sudo().create_uid.email_formatted}}</field>
+            <field name="email_to">{{object.email}}</field>
+            <field name="model_id" ref="google_shop.model_oauth2_detail"/>
+            <field name="auto_delete" eval="True"/>
+            <field name="body_html" type="html">
+                <div style="margin: 0px; padding: 0px;">
+                    <p style="margin: 0px; padding: 0px; font-size: 13px;">
+                        <strong>Hi Admin,</strong>
+                        <br/>
+                        <p>
+        Your Google Shop's refresh token has been expired, Please Reauthorize to it...
+                        </p>
+                        <br/>
+                        <p style="margin: 10px 0px 10px 0px; text-align: center;">
+                            <a t-att-href="object.account_token_page_url" style="background-color:#875A7B; padding: 8px 16px 8px 16px; text-decoration: none; color: #fff; border-radius: 5px;">Go to Account</a>
+                        </p>
+                        <br/>
+                    </p>
+                        Do not hesitate to contact us if you have any questions.
+                    <br/>
+                </div>
+            </field>
+        </record>
+        <record model="ir.ui.view" id="oauth2_detail_form">
+            <field name="name">Account Form</field>
+            <field name="model">oauth2.detail</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="OAuth2 Form">
+                    <header>
+                        <button name="button_authorize_url" class="btn-success" type="object" string="Authorize Account" attrs="{'invisible': [('authentication_state', '=', 'authorize_token')]}" />
+                        <button name="button_remove_token" class="btn-danger" type="object" string="Remove Tokens" attrs="{'invisible': [('authentication_state', '!=', 'authorize_token')]}" confirm="Are you sure to remove Refresh and Access token?"/>
+                        <field name="authentication_state" widget="statusbar" statusbar_visible="new,authorize_code,authorize_token"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_title">
+                            <h1>
+                                <field name="name" style="width:300px;border-width:3px;color:#0F9D58" placeholder="Token 1" attrs="{'readonly': [('authentication_state', '=', 'authorize_token')]}"/>
+                            </h1>
+                        </div>
+                        <group>
+                            <group string="Domain Url">
+                                <field name="domain_url" style="width:300px;border-width:3px;" placeholder="eq. https://webkul.com" attrs="{'readonly': [('authentication_state', '=', 'authorize_token')]}"/>
+                            </group>
+                            <group string="Callback Url">
+                                <field name="callback_url" style=" border-width:3px;" widget="CopyClipboardChar" no_label="1" options="{'string': 'Copy Link'}"/>
+                                <span class="mt16" attrs="{'invisible': [('id', '=', False)]}">
+                                    <div class="text-danger">Note:enter this Callback URL into Google Oauth2 Configurations</div>
+                                </span>
+                            </group>
+                        </group>
+                        <group>
+                            <group string="Cron Action">
+                                <field name="ir_cron_id" class="oe_inline" style=" border-width:3px;" required="True" attrs="{'readonly': [('authentication_state', '=', 'authorize_token')]}"/>
+                            </group>
+                        </group>
+                        <group string="Authenticate Key">
+                            <field name="client_id" style="border-width:3px;" attrs="{'readonly': [('authentication_state', '=', 'authorize_token')]}"/>
+                            <field name="client_secret" style="border-width:3px;" password="1" attrs="{'readonly': [('authentication_state', '=', 'authorize_token')]}"/>
+                        </group>
+
+                        <field name="authorization_code" invisible="1" style=" border-width:3px;"/>
+                        <label class="o_form_label" for="config_merchant_detail" data-original-title="" title="">Configure Merchant Details</label>
+                        <span class="pt-2">
+                            <field name="config_merchant_detail" style=" border-width:3px;" attrs="{'readonly': [('authentication_state', '=', 'authorize_token')]}"/>
+                            <div>
+                                <a href="https://www.google.com/retail/solutions/merchant-center/#?modal_active=none" target='_blank'>Click here to Create Merchant Account</a>
+                            </div>
+                        </span>
+                        <notebook>
+                            <page string="Merchant Details">
+                                <p style="color:grey">You can verify website using "/verify/website/&#60;string:html_file&#62;" Ex:- https://webkul.in/verify/website/google1cd00cdfxxxxxxxx.html</p>
+                                <group>
+                                    <field name="verify_account_url" placeholder="example:- google1123sdf12cd4b5b9.html" attrs="{'invisible': [('config_merchant_detail', '=', False)],'required': [('config_merchant_detail', '=', True)], 'readonly': [('authentication_state', '=', 'authorize_token')]}" style=" border-width:3px;"/>
+                                    <field name="verify_url_data" placeholder="example:- google-site-verification: google1123sdf12cd4b5b9.html" attrs="{'invisible': [('config_merchant_detail', '=', False)],'required': [('config_merchant_detail', '=', True)], 'readonly': [('authentication_state', '=', 'authorize_token')]}" style=" border-width:3px;"/>
+                                    <field name="merchant_id" style=" border-width:3px;" password="1" attrs="{'readonly': [('authentication_state', '=', 'authorize_token')]}"/>
+                                </group>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_ids"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="oauth2_detail_tree">
+            <field name="name">Account Tree</field>
+            <field name="model">oauth2.detail</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name" />
+                    <field name="id" />
+                    <field name="merchant_id" />
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="oauth2_detail_action">
+            <field name="name">Account</field>
+            <field name="res_model">oauth2.detail</field>
+            <field name="view_mode">form,tree</field>
+            <field name="view_id" ref="oauth2_detail_tree" />
+        </record>
+        <menuitem name = "Settings" id= "settings" parent="google_market_menu" sequence="98" />
+        <menuitem name = "Mapping" id= "mappings_fields" parent="google_market_menu" sequence="50" />
+        <menuitem id="google_shop_product_variants" name="Product Variants" action="product.product_normal_action" parent="mappings_fields" sequence="3" />
+        <menuitem name= "Account" id= "oauth2_detail_menu" parent="settings" action='oauth2_detail_action' sequence="1"/>
+    </data>
+</odoo>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) 2016-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>;) -->
+<!-- See LICENSE file for full copyright and licensing details. -->
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="product_status_form">
+            <field name="name">Product status manage</field>
+            <field name="model">product.status</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Product Status">
+                    <field name="manage_product_status" widget="radio" options="{'vertical': true}"/>
+                    <footer>
+                        <button name="apply_on_all_selective_product" type="object" string="Apply" class="btn-primary"/>
+                        <button string="Close" special="cancel" class="btn-danger"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+    </data>
+</odoo>

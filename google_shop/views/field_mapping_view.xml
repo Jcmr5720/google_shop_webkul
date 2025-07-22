@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) 2016-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>;) -->
+<!-- See LICENSE file for full copyright and licensing details. -->
+<!-- License URL : https://store.webkul.com/license.html/ -->
+<odoo>
+    <record model="ir.ui.view" id="field_mapping_line_tree">
+        <field name="name">Field Mapping Line Tree</field>
+        <field name="model">field.mapping.line</field>
+        <field name="type">tree</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="google_field_id" attrs="{'required': True}" options="{'no_open': True, 'no_create': True}"/>
+                <field name="field_type"/>
+                <field name="odoo_field_config" invisible="True"/>
+                <field name="model_field_id" attrs="{'required': [('field_type_value', '=', 'dynamic'),('field_type','!=', 'object')],'invisible': ['|', ('field_type','=', 'object'), ('field_type_value', '!=', 'dynamic')]}" options="{'no_open': True, 'no_create': True}"/>
+                <field name="default" string="Default Value" attrs="{'invisible': ['|', ('field_type','=', 'object'), ('field_type_value', '!=', 'dynamic')]}"/>
+                <field name="field_type_value" string="Field Type Value" attrs="{'invisible': [('field_type','=', 'object')]}"/>
+                <field name="attribute_id" attrs="{'invisible': ['|', ('field_type','=', 'object'), ('odoo_field_config', '=', 'dynamic')],'required':[('odoo_field_config', '=','attribute')]}"/>
+                <field name="fixed_text" attrs="{'required': [('field_type_value', '!=', 'dynamic')],'invisible': [('field_type_value', '!=', 'fixed')]}"/>
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="field_mapping_line_form">
+        <field name="name">Field Mapping Line Form</field>
+        <field name="model">field.mapping.line</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+
+            <form>
+                <sheet>
+                    <group string="Google Field">
+                        <group>
+                            <field name="google_field_id" attrs="{'required': True}" options="{'no_open': True, 'no_create': True}"/>
+                        </group>
+                        <group>
+                            <field name="field_type"/>
+                            <field name="is_link_field" attrs="{'invisible': [('is_link_field','=',False)]}"/>
+                        </group>
+                    </group>
+                    <group string="Configuration" attrs="{'invisible': [('is_link_field', '=', True)]}">
+                        <group>
+                            <field name="field_type_value" attrs="{'invisible': ['|', ('is_link_field','=',True), ('field_type','in', ['list_object', 'object'])], 'required': ['|', ('is_link_field','=',False), ('field_type','not in', ['list_object', 'object'])]}"/>
+                            <field name="odoo_field_config" attrs="{'invisible': ['|', ('field_type_value','!=','dynamic'), ('field_type','in', ['list_object', 'object'])], 'required': [('field_type_value', '=', 'dynamic'), ('is_link_field','=',False)]}"/>
+                        </group>
+                        <group>
+                            <field name="fixed_text" attrs="{'required': [('field_type_value', '=', 'fixed'), ('is_link_field', '=', False)],'invisible': [('field_type_value', '!=', 'fixed')]}"/>
+                            <field name="default" string="Default Value" attrs="{'invisible': ['|', '|', '|', ('is_link_field','=',True), ('field_type','in', ['list_object', 'object']), ('field_type_value', '!=', 'dynamic'), ('odoo_field_config', '!=', 'product')]}"/>
+                            <field name="model_field_id" string="Odoo Model field" attrs="{'invisible': ['|', '|', '|', ('is_link_field','=',True), ('field_type', 'in', ['list_object', 'object']), ('odoo_field_config', '!=', 'product'), ('field_type_value', '=', 'fixed')], 'required': [('odoo_field_config', '=', 'product'),('field_type','not in', ['list_object', 'object']), ('is_link_field', '=', False), ('field_type_value','=','dynamic')]}" options="{'no_open': True, 'no_create': True}"/>
+                            <field name="attribute_id" attrs="{'invisible': ['|', '|', '|', ('is_link_field','=',True), ('field_type','in', ['list_object', 'object']), ('odoo_field_config', '=', 'product'), ('field_type_value', '=', 'fixed')],'required':[('odoo_field_config', '=','attribute')]}"/>
+                        </group>
+                    </group>
+
+                    <field name="property_field_mapping" force_save="1" attrs="{'invisible': [('field_type', 'not in', ['list_object', 'object'])]}" nolabel="1" widget="one2many" mode="tree, form">
+                        <tree editable="bottom" create="1">
+                            <field name="google_field_id" invisible="True" options='{"no_open": True,"no_create": True}'/>
+                            <field name="field_property_data_id" options='{"no_open": True,"no_create": True}'/>
+                            <field name="field_type" readonly="True"/>
+                            <field name="default_value" attrs="{'invisible': [('field_type', 'in', ['list_object', 'object'])]}"/>
+                            <field name="odoo_field_id" attrs="{'invisible': [('field_type', 'in', ['list_object', 'object'])]}"/>
+                            <field name="field_mapping_line_id" string="Object Type Mapping" attrs="{'invisible': [('field_type', 'not in', ['list_object', 'object'])]}" options="{'no_create': True}"/>
+                        </tree>
+                    </field>
+                    <span class="text-danger" attrs="{'invisible': [('is_link_field', '=', False)]}">
+                            (*) The Url type field if a url is required for the field; imageLink and link are supported at the moment.
+                    </span>
+                </sheet>
+            </form>
+
+        </field>
+    </record>
+
+
+    <record model="ir.ui.view" id="field_mapping_form">
+        <field name="name">Field Mapping Form</field>
+        <field name="model">field.mapping</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <form string="Field Mapping">
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="toggle_active" type="object" class="oe_stat_button" icon="fa-archive">
+                            <field name="active" widget="boolean_button" options="{'terminology': 'archive'}"/>
+                        </button>
+                    </div>
+                    <group>
+                        <field name="name" style="width:300px;border-width:3px;"/>
+                    </group>
+                    <group>
+                        <field name="mapping_type" required="True"/>
+                    </group>
+                    <field name="field_mapping_line_ids" widget="one2many" mode="tree,form">
+                    </field>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="field_mapping_tree">
+        <field name="name">Field Mapping Tree</field>
+        <field name="model">field.mapping</field>
+        <field name="type">tree</field>
+        <field name="arch" type="xml">
+            <tree string="Field Mapping">
+                <field name="name" />
+                <field name="field_mapping_line_ids" />
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="field_mapping_action">
+        <field name="name">Field Mapping</field>
+        <field name="res_model">field.mapping</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem name="Field Mapping" id="field_mapping_menu" parent="mappings_fields" action="field_mapping_action" sequence="2"/>
+
+</odoo>

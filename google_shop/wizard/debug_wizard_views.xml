@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) 2016-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>;) -->
+<!-- See LICENSE file for full copyright and licensing details. -->
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="google_shop_debug_form">
+            <field name="name">Google Shop: Debug</field>
+            <field name="model">google.shop.debug</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Debug">
+                    <group>
+                        <field name="product_id"/>
+                        <field name="data" attrs="{'invisible':[('data','=',False)]}"/>
+                        <footer>
+                            <button name="dry_run" type="object" string="Dry Run" class="btn-primary"/>
+                            <button string="Close" special="cancel" class="btn-danger"/>
+                        </footer>
+                    </group>
+                </form>
+            </field>
+        </record>
+    </data>
+</odoo>
