@@ -47,7 +47,7 @@
                     </span>
                     <br/>
                     <span class="text-danger" attrs="{'invisible': [('is_link_field', '=', False)]}">
-                            (*) You must enable the Url type field if a url is required for the field; imageLink and link are supported at the moment.
+                            (*) You must enable the Url type field if a url is required for the field; imageLink, additionalImageLink and link are supported at the moment.
                     </span>
 
                 </sheet>

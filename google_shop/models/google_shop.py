@@ -538,6 +538,10 @@ class GoogleMerchantShop(models.Model):
         if field_name == "imageLink":
             product['imageLink'] = "%s/web/image/product.product/%s/image_1024" % (
                     base_url, product_id.id)
+        elif field_name == "additionalImageLink":
+            images = self.env['product.image'].search([('product_tmpl_id', '=', product_id.product_tmpl_id.id)])
+            if images:
+                product['additionalImageLink'] = ["%s/web/image/product.image/%s/image_1024" % (base_url, img.id) for img in images]
         elif field_name == "link":
             
             product['shipping'] = [

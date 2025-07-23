@@ -62,7 +62,7 @@
                         </tree>
                     </field>
                     <span class="text-danger" attrs="{'invisible': [('is_link_field', '=', False)]}">
-                            (*) The Url type field if a url is required for the field; imageLink and link are supported at the moment.
+                            (*) The Url type field if a url is required for the field; imageLink, additionalImageLink and link are supported at the moment.
                     </span>
                 </sheet>
             </form>

@@ -17,7 +17,7 @@
     "name":  "Google Shopping Feed",
     "summary":  """This module allows you to send the products of odoo into google shop.""",
     "category":  "eCommerce",
-    "version":  "1.1.10",
+    "version":  "1.1.11",
     "sequence":  1,
     "author":  "Webkul Software Pvt. Ltd.",
     "license":  "Other proprietary",

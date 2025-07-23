@@ -1,5 +1,9 @@
 ### Google Shopping Feed
 
+## [1.1.11] -  22 July 2025 03:50:32 PM IST
+
+- :rocket: Added support for exporting secondary images via additionalImageLink field.
+
 ## [1.1.9] -  12 June 2024 03:50:32 PM IST
 
 - :rocket: Made compatible with Multi Langauage and Multi Country

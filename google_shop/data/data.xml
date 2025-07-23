@@ -118,6 +118,12 @@
             <field name="name">size_system</field>
             <field name="required">False</field>
         </record>
+        <record id="google_fields_23" model="google.fields">
+            <field name="name">additionalImageLink</field>
+            <field name="field_type">list</field>
+            <field name="is_link_field">True</field>
+            <field name="required">False</field>
+        </record>
         <record id="google_fields_17" model="google.fields">
             <field name="name">shippingWeight</field>
             <field name="field_type">object</field>
@@ -217,6 +223,11 @@
         <record id="field_mapping_line_13" model="field.mapping.line">
             <field name="google_field_id" ref="google_fields_17"/>
             <field model="ir.model.fields" name="model_field_id" search="[('model', '=', 'product.product'),('name','=','weight_uom_name')]"/>
+            <field name="field_mapping_id" ref="field_mapping_1"/>
+            <field name="fixed_text">none</field>
+        </record>
+        <record id="field_mapping_line_14" model="field.mapping.line">
+            <field name="google_field_id" ref="google_fields_23"/>
             <field name="field_mapping_id" ref="field_mapping_1"/>
             <field name="fixed_text">none</field>
         </record>
