@@ -40,6 +40,12 @@
             <field name="required">True</field>
             <field name="is_link_field">True</field>
         </record>
+        <record id="google_fields_23" model="google.fields">
+            <field name="name">additionalImageLinks</field>
+            <field name="required">False</field>
+            <field name="is_link_field">True</field>
+            <field name="field_type">list</field>
+        </record>
         <record id="google_fields_8" model="google.fields">
             <field name="name">availability</field>
             <field name="required">True</field>
@@ -175,6 +181,12 @@
 
         <record id="field_mapping_line_5" model="field.mapping.line">
             <field name="google_field_id" ref="google_fields_5"/>
+            <field name="field_mapping_id" ref="field_mapping_1"/>
+            <field name="fixed_text">none</field>
+        </record>
+
+        <record id="field_mapping_line_14" model="field.mapping.line">
+            <field name="google_field_id" ref="google_fields_23"/>
             <field name="field_mapping_id" ref="field_mapping_1"/>
             <field name="fixed_text">none</field>
         </record>
