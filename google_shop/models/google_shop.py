@@ -557,7 +557,8 @@ class GoogleMerchantShop(models.Model):
                
                 ],
         
-            product['link'] = base_url+'/'+target_country+'/'+self._context.get('url_code', 'en')+"/shop/product/"+slug(
+            #product['link'] = base_url+'/'+target_country+'/'+self._context.get('url_code', 'en')+"/shop/product/"+slug(
+            product['link'] = base_url + '/shop/product/' + slug(
                 prod_temp_ref.search([('id', '=', product_id.product_tmpl_id.id)], limit=1))
         else:
             raise UserError("%s is not support url link type value"%(field_name))
