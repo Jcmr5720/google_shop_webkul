@@ -17,7 +17,6 @@ from odoo import models, fields, api, modules
 import logging
 #ELIMINAR
 import json
-import base64
 import requests
 
 _logger = logging.getLogger(__name__)
@@ -75,7 +74,13 @@ class ProductGoogleMultiImage(models.Model):
     _inherit = 'product.product'
 
     def _google_upload_image(self, product_image, google_shop=False, config=False):
-        """Upload a single image to Google Merchant and return the image id."""
+        """Upload a single image to Google Merchant and return the image id.
+
+        The previous implementation uploaded raw image bytes which could be
+        considerably slower especially for large images.  Google also accepts a
+        publicly accessible URL for the image so here we send the image link
+        instead of the binary payload.
+        """
         google_shop = google_shop or config
         if not google_shop:
             return []
@@ -91,10 +96,14 @@ class ProductGoogleMultiImage(models.Model):
             'Authorization': 'Bearer ' + google_shop.oauth_id.access_token,
             'Content-Type': 'application/json',
         }
+
+        base_url = google_shop.shop_url or self.env['ir.config_parameter'].sudo().get_param('web.base.url')
+        link = f"{base_url}/web/image/product.image/{product_image.id}/image_1024"
         data = {
-            'data': base64.b64encode(product_image.image_1920).decode('utf-8'),
+            'image': {'link': link},
             'imageType': 'additional',
         }
+
         try:
             response = requests.post(url, headers=headers, data=json.dumps(data), timeout=30)
             if response.status_code == 200:
