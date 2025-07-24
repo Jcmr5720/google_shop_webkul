@@ -73,7 +73,7 @@ class ProductTemplate(models.Model):
 class ProductGoogleMultiImage(models.Model):
     _inherit = 'product.product'
 
-    def _google_upload_image(self, product_image, google_shop=False, config=False):
+    def _google_upload_image(self, attachment, google_shop=False, config=False):
         """Upload a single image to Google Merchant and return the image id.
 
         The previous implementation uploaded raw image bytes which could be
@@ -84,7 +84,7 @@ class ProductGoogleMultiImage(models.Model):
         google_shop = google_shop or config
         if not google_shop:
             return []
-        if not product_image.image_1920:
+        if not attachment:
             return []
 
         google_shop.oauth_id.button_get_token(google_shop.oauth_id)
@@ -98,7 +98,7 @@ class ProductGoogleMultiImage(models.Model):
         }
 
         base_url = google_shop.shop_url or self.env['ir.config_parameter'].sudo().get_param('web.base.url')
-        link = f"{base_url}/web/image/product.image/{product_image.id}/image_1024"
+        link = f"{base_url}/web/image/{attachment.id}/image_1024"
         data = {
             'image': {'link': link},
             'imageType': 'additional',
@@ -119,8 +119,13 @@ class ProductGoogleMultiImage(models.Model):
         if not google_shop:
             return {'error': 'google shop configuration missing', 'status': 'error'}
 
-        images = self.env['product.image'].search([('product_tmpl_id', '=', self.product_tmpl_id.id)])
-        if not images:
+        attachments = self.env['ir.attachment'].sudo().search([
+            ('res_model', '=', 'product.template'),
+            ('res_id', '=', self.product_tmpl_id.id),
+            ('mimetype', 'ilike', 'image'),
+            ('res_field', '!=', 'image_1920'),
+        ])
+        if not attachments:
             return {
                 'error': 'product_google_upload_multi_images error no images to upload',
                 'status': 'error',
@@ -128,7 +133,9 @@ class ProductGoogleMultiImage(models.Model):
             }
 
         image_ids = []
-        for product_image in images:
-            image_ids += self._google_upload_image(product_image, google_shop=google_shop)
+        for attachment in attachments:
+            if not attachment.public:
+                attachment.public = True
+            image_ids += self._google_upload_image(attachment, google_shop=google_shop)
             self.write({'google_additional_image_ids': '%s' % (image_ids)})
         return image_ids

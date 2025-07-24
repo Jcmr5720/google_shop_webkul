@@ -539,13 +539,19 @@ class GoogleMerchantShop(models.Model):
             product['imageLink'] = "%s/web/image/product.product/%s/image_1024" % (
                     base_url, product_id.id)
         elif field_name == "additionalImageLinks":
-            images = self.env['product.image'].search([
-                ('product_tmpl_id', '=', product_id.product_tmpl_id.id)
+            attachments = self.env['ir.attachment'].sudo().search([
+                ('res_model', '=', 'product.template'),
+                ('res_id', '=', product_id.product_tmpl_id.id),
+                ('mimetype', 'ilike', 'image'),
+                ('res_field', '!=', 'image_1920'),
             ])
-            if images:
+            if attachments:
+                for att in attachments:
+                    if not att.public:
+                        att.public = True
                 product['additionalImageLinks'] = [
-                    "%s/web/image/product.image/%s/image_1024" % (base_url, img.id)
-                    for img in images
+                    "%s/web/image/%s/image_1024" % (base_url, att.id)
+                    for att in attachments
                 ]
         elif field_name == "link":
             
