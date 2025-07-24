@@ -15,6 +15,11 @@
 ##########################################################################
 from odoo import models, fields, api, modules
 import logging
+#ELIMINAR
+import json
+import base64
+import requests
+
 _logger = logging.getLogger(__name__)
 
 
@@ -29,6 +34,8 @@ class ProductUpdates(models.Model):
                 rec.append((line.split('-')[0],line.split('-')[1]))
         return rec
     google_shop_product_categ = fields.Selection(selection=lambda self: self.all_available_category(),string='Google Shop Category')
+    #ELIMINAR
+    google_additional_image_ids = fields.Char(string='Google Additional Image IDs')
 
     def write(self, vals):
         res = super(ProductUpdates, self).write(vals)
@@ -59,3 +66,60 @@ class ProductTemplate(models.Model):
                     product_mapping_id.write(
                         {'product_status': 'updated', 'update_status': False})
         return res
+
+        
+#---NUEVA EDICION----
+
+
+class ProductGoogleMultiImage(models.Model):
+    _inherit = 'product.product'
+
+    def _google_upload_image(self, product_image, google_shop=False, config=False):
+        """Upload a single image to Google Merchant and return the image id."""
+        google_shop = google_shop or config
+        if not google_shop:
+            return []
+        if not product_image.image_1920:
+            return []
+
+        google_shop.oauth_id.button_get_token(google_shop.oauth_id)
+        url = (
+            f"https://shoppingcontent.googleapis.com/content/v2.1/"
+            f"{google_shop.merchant_id}/products/{self.default_code}/images:insert"
+        )
+        headers = {
+            'Authorization': 'Bearer ' + google_shop.oauth_id.access_token,
+            'Content-Type': 'application/json',
+        }
+        data = {
+            'data': base64.b64encode(product_image.image_1920).decode('utf-8'),
+            'imageType': 'additional',
+        }
+        try:
+            response = requests.post(url, headers=headers, data=json.dumps(data), timeout=30)
+            if response.status_code == 200:
+                resp_json = response.json()
+                return [resp_json.get('id')] if resp_json.get('id') else []
+        except Exception as exc:
+            _logger.error('Google additional image upload failed %s', exc)
+        return []
+
+    def product_google_upload_multi_images(self, google_shop=False, config=False):
+        """Upload all available images of this product to Google Merchant."""
+        google_shop = google_shop or config
+        if not google_shop:
+            return {'error': 'google shop configuration missing', 'status': 'error'}
+
+        images = self.env['product.image'].search([('product_tmpl_id', '=', self.product_tmpl_id.id)])
+        if not images:
+            return {
+                'error': 'product_google_upload_multi_images error no images to upload',
+                'status': 'error',
+                'message': 'no images to upload',
+            }
+
+        image_ids = []
+        for product_image in images:
+            image_ids += self._google_upload_image(product_image, google_shop=google_shop)
+            self.write({'google_additional_image_ids': '%s' % (image_ids)})
+        return image_ids
