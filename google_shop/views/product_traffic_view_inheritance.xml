@@ -42,7 +42,7 @@
     </record>
 
     <record model="ir.actions.act_window" id="product_traffic_action">
-        <field name="name">Product Trafic</field>
+        <field name="name">Product Traffic</field>
         <field name="res_model">product.traffic</field>
         <field name="view_mode">tree,form</field>
         <field name="view_id" ref="product_traffic_tree"/>
