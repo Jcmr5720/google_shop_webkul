@@ -170,3 +170,4 @@ class ProductMapping(models.Model):
                 ' ' + mapping.product_id.name
             result.append((mapping.id, name))
         return result
+
