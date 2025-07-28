@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
+    <data>
     <record model="ir.ui.view" id="product_traffic_tree">
         <field name="name">Product Traffic Tree</field>
         <field name="model">product.traffic</field>
@@ -49,4 +50,5 @@
 
     <menuitem name="Trafic" id="google_traffic_menu" parent="google_market_menu" sequence="60"/>
     <menuitem name="Product Trafic" id="product_traffic_menu" parent="google_traffic_menu" action="product_traffic_action" sequence="1"/>
+    </data>
 </odoo>
