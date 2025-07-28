@@ -1,4 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- VISTA CREADA POR JUAN CAMILO MUÑOZ  -->
+<!-- RENDERIZA LAS PESTASÑAS "DESCRIPTION", "ADDITIONAL IMAGES" Y LA URL QUE GOOGLE TIENE EXPORTADA -->
+<!-- LA VISTA EST ACORRELACIONADA CON EL ARCHIVO product_mapping_inheritance.py -->
+
+
 <odoo>
     <record id="product_mapping_form_inherit_links_images" model="ir.ui.view">
         <field name="name">Product Mapping Form Inherit Links and Images</field>

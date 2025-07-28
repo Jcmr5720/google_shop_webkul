@@ -1,3 +1,11 @@
+# -*- coding: utf-8 -*-
+##########################################################################
+# MODELO CREADO POR JUAN CAMILO MUÑOZ
+# PERMITE LEER LOS DATOS QUE SE IMPORTARON A GOOGLE: ADDITIONAL IMAGES, DESCRIPTION Y LINK
+# SE PUEDE VER ESTO EN PRODUCT MAPPING
+# LA VISTA QUE RENDERIZA ESTAS FUNCIONES SE LLAMA product_mapping_view_inheritance.xml
+##########################################################################
+
 from odoo import models, fields, api
 
 
