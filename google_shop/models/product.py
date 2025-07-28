@@ -66,16 +66,17 @@ class ProductTemplate(models.Model):
                     product_mapping_id.write(
                         {'product_status': 'updated', 'update_status': False})
         return res
-
-        
-#---NUEVA EDICION----
-
+       
+##########################################################################
+# NUEVA FUNCIÓN: Agregada por Juan Camilo
+## FUNCIÓN QUE PERMITE AGREGAR IMAGENES ADICIOANLES AL PRODUCTO EXPORTADO
+### ES UNA FUNCIÓN QUE NO VIENE POR DEFECTO EN LA APLICACIÓN
+##########################################################################
 
 class ProductGoogleMultiImage(models.Model):
     _inherit = 'product.product'
 
     def _google_upload_image(self, product_image, google_shop=False, config=False):
-        """Upload a single image to Google Merchant and return the image id."""
         google_shop = google_shop or config
         if not google_shop:
             return []
@@ -105,7 +106,6 @@ class ProductGoogleMultiImage(models.Model):
         return []
 
     def product_google_upload_multi_images(self, google_shop=False, config=False):
-        """Upload all available images of this product to Google Merchant."""
         google_shop = google_shop or config
         if not google_shop:
             return {'error': 'google shop configuration missing', 'status': 'error'}

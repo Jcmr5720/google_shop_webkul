@@ -532,7 +532,15 @@ class GoogleMerchantShop(models.Model):
                 else:
                     product[key] = field_data
 
-        
+##########################################################################
+# NUEVA FUNCIÓN: La función _handle_link_type_field se modifico:
+# ALTERAR LINK FUNCIONAL
+# AGREGAR FUNCION DE CARGA DE MULTIPLES IMAGENES
+## ESTO NO VIENE POR DEFECTO EN LA APLICACIÓN
+## SÍ SE DESEA ELIMINAR LAS IMAGENES MULTIPLES VER "elif field_name == "additionalImageLinks":"
+## EN DATA ES EL CAMPO #23
+##########################################################################
+
     def _handle_link_type_field(self, product_id, product, field_name, base_url,target_country=''):
         prod_temp_ref = self.env['product.template']
         if field_name == "imageLink":
@@ -549,13 +557,10 @@ class GoogleMerchantShop(models.Model):
                 ]
         elif field_name == "link":
             
-            product['shipping'] = [
-                {
+            product['shipping'] = [{
                 "country": target_country,
                 "service": "Standard",
-                },
-               
-                ],
+            }]
         
             #product['link'] = base_url+'/'+target_country+'/'+self._context.get('url_code', 'en')+"/shop/product/"+slug(
             product['link'] = base_url + '/shop/product/' + slug(
