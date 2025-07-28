@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record model="ir.ui.view" id="product_traffic_tree">
+        <field name="name">Product Traffic Tree</field>
+        <field name="model">product.traffic</field>
+        <field name="arch" type="xml">
+            <tree create="false" edit="false">
+                <field name="last_modified_on"/>
+                <field name="country"/>
+                <field name="google_shop_id"/>
+                <field name="product_id"/>
+                <field name="updated"/>
+                <field name="google_product_id"/>
+                <field name="message"/>
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="product_traffic_form">
+        <field name="name">Product Traffic Form</field>
+        <field name="model">product.traffic</field>
+        <field name="arch" type="xml">
+            <form string="Product Trafic" create="false">
+                <sheet>
+                    <group string="Basic Details">
+                        <group>
+                            <field name="google_shop_id"/>
+                            <field name="product_id"/>
+                            <field name="google_product_id"/>
+                            <field name="country"/>
+                            <field name="updated"/>
+                            <field name="message"/>
+                            <field name="clicks"/>
+                            <field name="impressions"/>
+                            <field name="last_modified_on"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="product_traffic_action">
+        <field name="name">Product Trafic</field>
+        <field name="res_model">product.traffic</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="product_traffic_tree"/>
+    </record>
+
+    <menuitem name="Trafic" id="google_traffic_menu" parent="google_market_menu" sequence="60"/>
+    <menuitem name="Product Trafic" id="product_traffic_menu" parent="google_traffic_menu" action="product_traffic_action" sequence="1"/>
+</odoo>

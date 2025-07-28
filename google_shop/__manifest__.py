@@ -32,9 +32,11 @@
     "data":  [
         'security/google_security.xml',
         'security/ir.model.access.csv',
+        'security/ir.model.access_inheritance.csv',
         'data/data.xml',
         'views/templates.xml',
         'views/google_shop_view.xml',
+        'views/google_shop_view_inheritance.xml',
         'views/oauth2_detail_view.xml',
         'views/google_fields_view.xml',
         'views/field_mapping_view.xml',
@@ -42,7 +44,11 @@
         'wizard/product_status_views.xml',
         'wizard/debug_wizard_views.xml',
         'views/product_mapping_view.xml',
+
+        'views/product_traffic_view_inheritance.xml',
+
         'views/product_mapping_view_inheritance.xml',
+
         'views/res_config_settings_views.xml',
         'data/cron_data.xml',
     ],

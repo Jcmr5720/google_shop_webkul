@@ -24,3 +24,5 @@ from . import product_mapping_inheritance
 from . import product
 from . import res_config_settings
 from . import target_country
+from . import google_shop_inheritance
+from . import product_traffic_inheritance

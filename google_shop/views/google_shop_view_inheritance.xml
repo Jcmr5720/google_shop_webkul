@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="google_shop_form_inherit_fetch_traffic" model="ir.ui.view">
+            <field name="name">google.shop.form.inherit.fetch.traffic</field>
+            <field name="model">google.shop</field>
+            <field name="inherit_id" ref="google_shop.google_shop_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//header/field[@name='shop_status']" position="before">
+                    <button name="button_fetch_traffic" class="btn-secondary" type="object" string="Fetch Traffic" attrs="{'invisible': [('shop_status', 'in', ['new','error'])]}"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>
