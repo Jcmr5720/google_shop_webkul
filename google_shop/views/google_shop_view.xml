@@ -114,6 +114,6 @@
         <field name="view_id" ref="google_shop_tree" />
     </record>
     <menuitem name="Google Shop" web_icon="google_shop,static/description/icon.png" id="google_market_menu" />
-    <menuitem name="Google Shops" id="google_shops_menu" parent="google_market_menu"/>
+    <menuitem name="Google Shops" id="google_shops_menu" parent="google_market_menu" sequence="10"/>
     <menuitem name="Shops" id= "google_shop_menu" parent="google_shops_menu" action="google_shop_action" />
 </odoo>

@@ -114,10 +114,9 @@
             <field name="view_mode">form,tree</field>
             <field name="view_id" ref="oauth2_detail_tree" />
         </record>
-        <menuitem name = "Settings" id= "settings" parent="google_market_menu" sequence="98" />
-        <menuitem name = "Mapping" id= "mappings_fields" parent="google_market_menu" sequence="50" />
-        <menuitem name="Trafic" id="google_traffic_menu" parent="google_market_menu" sequence="60"/>
-        <menuitem name="Product Trafic" id="product_traffic_menu" parent="google_traffic_menu" action="product_traffic_action" sequence="1"/>
+        <menuitem name = "Settings" id= "settings" parent="google_market_menu" sequence="40" />
+        <menuitem name = "Mapping" id= "mappings_fields" parent="google_market_menu" sequence="20" />
+        <menuitem name="Trafic" id="google_traffic_menu" parent="google_market_menu" action="product_traffic_action" sequence="30"/>
         <menuitem id="google_shop_product_variants" name="Product Variants" action="product.product_normal_action" parent="mappings_fields" sequence="3" />
         <menuitem name= "Account" id= "oauth2_detail_menu" parent="settings" action='oauth2_detail_action' sequence="1"/>
     </data>
