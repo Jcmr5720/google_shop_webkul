@@ -31,11 +31,6 @@
                             <field name="google_product_id" />
                             <field name="message"/>
                             <field name="id" invisible="1"/>
-                            <label class="o_form_label" for="product_shop_link" style="font-weight:bold;">Google Product Link</label>
-                            <span class="pt-2">
-                                <field name="product_shop_link" readonly="1" nolabel="1"/>
-                                <button name="action_open_product_shop_link" type="object" string="Open Link" class="btn-primary" attrs="{'invisible': [('product_shop_link','=',False)]}"/>
-                            </span>
                         </group>
                     </group>
                     <notebook>
@@ -59,16 +54,6 @@
                         <page string="Item Level Issues">
                             <group>
                                 <field name="wk_fetched_issues" readonly="True"/>
-                            </group>
-                        </page>
-                        <page string="Description">
-                            <group>
-                                <field name="google_description" readonly="True" nolabel="1"/>
-                            </group>
-                        </page>
-                        <page string="Additional Images">
-                            <group>
-                                <field name="additional_images" readonly="True" nolabel="1"/>
                             </group>
                         </page>
                     </notebook>

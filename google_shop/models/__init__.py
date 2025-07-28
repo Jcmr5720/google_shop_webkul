@@ -20,6 +20,7 @@ from . import google_fields
 from . import field_mapping
 from . import field_mapping_line
 from . import product_mapping
+from . import product_mapping_inheritance
 from . import product
 from . import res_config_settings
 from . import target_country

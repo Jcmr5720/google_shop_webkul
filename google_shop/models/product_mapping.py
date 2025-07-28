@@ -51,11 +51,6 @@ class ProductMapping(models.Model):
     disapproved_countries = fields.Char(string="Disapproved Countries")
     wk_fetched_issues = fields.Html(string="Fetched Issues")
     image_128 = fields.Image(related='product_id.image_128')
-    additional_images = fields.Html(string='Additional Images', compute='_compute_additional_images', readonly=True)
-    product_shop_link = fields.Char(string='Google Product Link',
-        compute='_compute_product_shop_link', readonly=True)
-    google_description = fields.Text(string='Google Description',
-        compute='_compute_google_description', readonly=True)
     content_language = fields.Many2one(string="Content Language", comodel_name="res.lang",
                                        required=True)
     target_country = fields.Many2one(string="Country", comodel_name="res.country",
@@ -176,43 +171,3 @@ class ProductMapping(models.Model):
             result.append((mapping.id, name))
         return result
 
-    @api.depends('product_id')
-    def _compute_additional_images(self):
-        base_url = self.env['ir.config_parameter'].sudo().get_param('web.base.url')
-        for rec in self:
-            html = ''
-            if rec.product_id:
-                images = self.env['product.image'].search([
-                    ('product_tmpl_id', '=', rec.product_id.product_tmpl_id.id)
-                ])
-                for img in images:
-                    html += '<img src="%s/web/image/product.image/%s/image_128" ' \
-                            'style="margin:5px;max-height:128px;"/>' % (base_url, img.id)
-            rec.additional_images = html
-
-    @api.depends('product_id')
-    def _compute_product_shop_link(self):
-        base_url = self.env['ir.config_parameter'].sudo().get_param('web.base.url')
-        for rec in self:
-            url = ''
-            if rec.product_id and rec.product_id.website_url:
-                url = base_url.rstrip('/') + rec.product_id.website_url
-            rec.product_shop_link = url
-
-    def action_open_product_shop_link(self):
-        self.ensure_one()
-        if self.product_shop_link:
-            return {
-                'type': 'ir.actions.act_url',
-                'url': self.product_shop_link,
-                'target': 'new',
-            }
-        return False
-
-    @api.depends('product_id')
-    def _compute_google_description(self):
-        for rec in self:
-            desc = ''
-            if rec.product_id:
-                desc = rec.product_id.website_meta_description or ''
-            rec.google_description = desc
