@@ -16,6 +16,7 @@
                     <button name="button_delete_product_link" class="btn-danger" type="object" string="Delete All products" attrs="{'invisible': [('mapping_count', '=', 0)]}" confirm="Are you sure to delete all products?"/>
                     <button name="reset_state" class="btn-danger" type="object" string="Reset" attrs="{'invisible': ['|',('mapping_count', '>', 0),('shop_status','=','new')]}"/>
                     <button name="button_show_debug_wizard" class="bg-black text-light border-dark" type="object" string="Debug" attrs="{'invisible': [('shop_status', 'in', ['new', 'error'])]}" groups='base.group_no_one'><i class="fa fa-bug"/> Debug</button>
+                    <button name="button_fetch_traffic" class="btn-secondary" type="object" string="Fetch Traffic" attrs="{'invisible': [('shop_status', 'in', ['new','error'])]}"/>
                     <field name="shop_status" widget="statusbar" statusbar_visible="new,validate,done"/>
                 </header>
 

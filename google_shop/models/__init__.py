@@ -23,3 +23,4 @@ from . import product_mapping
 from . import product
 from . import res_config_settings
 from . import target_country
+from . import product_traffic

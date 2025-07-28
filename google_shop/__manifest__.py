@@ -42,6 +42,7 @@
         'wizard/product_status_views.xml',
         'wizard/debug_wizard_views.xml',
         'views/product_mapping_view.xml',
+        'views/product_traffic_view.xml',
         'views/res_config_settings_views.xml',
         'data/cron_data.xml',
     ],
