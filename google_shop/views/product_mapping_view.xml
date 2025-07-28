@@ -56,6 +56,11 @@
                                 <field name="wk_fetched_issues" readonly="True"/>
                             </group>
                         </page>
+                        <page string="Additional Images">
+                            <group>
+                                <field name="additional_images" readonly="True" nolabel="1"/>
+                            </group>
+                        </page>
                     </notebook>
                 </sheet>
             </form>
