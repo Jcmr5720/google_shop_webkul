@@ -42,13 +42,13 @@
     </record>
 
     <record model="ir.actions.act_window" id="product_traffic_action">
-        <field name="name">Product Trafic</field>
+        <field name="name">Product Traffic</field>
         <field name="res_model">product.traffic</field>
         <field name="view_mode">tree,form</field>
         <field name="view_id" ref="product_traffic_tree"/>
     </record>
 
-    <menuitem name="Trafic" id="google_traffic_menu" parent="google_market_menu" sequence="60"/>
-    <menuitem name="Product Trafic" id="product_traffic_menu" parent="google_traffic_menu" action="product_traffic_action" sequence="1"/>
+    <menuitem name="Traffic" id="google_traffic_menu" parent="google_market_menu" sequence="60"/>
+    <menuitem name="Product Traffic" id="product_traffic_menu" parent="google_traffic_menu" action="product_traffic_action" sequence="1"/>
     </data>
 </odoo>
