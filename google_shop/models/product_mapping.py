@@ -54,6 +54,8 @@ class ProductMapping(models.Model):
     additional_images = fields.Html(string='Additional Images', compute='_compute_additional_images', readonly=True)
     product_shop_link = fields.Char(string='Google Product Link',
         compute='_compute_product_shop_link', readonly=True)
+    google_description = fields.Text(string='Google Description',
+        compute='_compute_google_description', readonly=True)
     content_language = fields.Many2one(string="Content Language", comodel_name="res.lang",
                                        required=True)
     target_country = fields.Many2one(string="Country", comodel_name="res.country",
@@ -206,3 +208,11 @@ class ProductMapping(models.Model):
                 'target': 'new',
             }
         return False
+
+    @api.depends('product_id')
+    def _compute_google_description(self):
+        for rec in self:
+            desc = ''
+            if rec.product_id:
+                desc = rec.product_id.website_meta_description or ''
+            rec.google_description = desc
