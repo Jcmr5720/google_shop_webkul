@@ -31,6 +31,8 @@
                             <field name="google_product_id" />
                             <field name="message"/>
                             <field name="id" invisible="1"/>
+                            <field name="product_shop_link" readonly="1"/>
+                            <button name="action_open_product_shop_link" type="object" string="Open Link" class="btn-primary" attrs="{'invisible': [('product_shop_link','=',False)]}"/>
                         </group>
                     </group>
                     <notebook>
