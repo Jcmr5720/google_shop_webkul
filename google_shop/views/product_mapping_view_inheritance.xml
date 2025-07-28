@@ -30,6 +30,13 @@
                         <field name="additional_images" readonly="True" nolabel="1" />
                     </group>
                 </page>
+                <page string="Traffic">
+                    <group>
+                        <field name="google_clicks" readonly="True"/>
+                        <field name="google_impressions" readonly="True"/>
+                        <field name="google_ctr" readonly="True"/>
+                    </group>
+                </page>
             </xpath>
         </field>
     </record>

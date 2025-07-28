@@ -28,6 +28,23 @@ class ProductMappingInheritance(models.Model):
         readonly=True
     )
 
+    # Traffic metrics fields
+    google_clicks = fields.Integer(
+        string='Clicks',
+        compute='_compute_google_traffic',
+        readonly=True
+    )
+    google_impressions = fields.Integer(
+        string='Impressions',
+        compute='_compute_google_traffic',
+        readonly=True
+    )
+    google_ctr = fields.Float(
+        string='CTR (%)',
+        compute='_compute_google_traffic',
+        readonly=True
+    )
+
     @api.depends('product_id')
     def _compute_additional_images(self):
         base_url = self.env['ir.config_parameter'].sudo().get_param('web.base.url')
@@ -70,3 +87,15 @@ class ProductMappingInheritance(models.Model):
             if rec.product_id:
                 desc = rec.product_id.website_meta_description or ''
             rec.google_description = desc
+
+    @api.depends('product_id')
+    def _compute_google_traffic(self):
+        """Compute Google traffic metrics for the product.
+
+        This method is a placeholder for integration with Google services.
+        Currently it sets default values for clicks, impressions and CTR.
+        """
+        for rec in self:
+            rec.google_clicks = 0
+            rec.google_impressions = 0
+            rec.google_ctr = 0.0
