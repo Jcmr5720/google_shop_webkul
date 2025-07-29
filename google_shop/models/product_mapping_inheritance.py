@@ -7,6 +7,12 @@
 ##########################################################################
 
 from odoo import models, fields, api
+import requests
+import json
+from datetime import date, timedelta
+import logging
+
+_logger = logging.getLogger(__name__)
 
 
 class ProductMappingInheritance(models.Model):
@@ -92,10 +98,59 @@ class ProductMappingInheritance(models.Model):
     def _compute_google_traffic(self):
         """Compute Google traffic metrics for the product.
 
-        This method is a placeholder for integration with Google services.
-        Currently it sets default values for clicks, impressions and CTR.
+        Fetches metrics from Google Merchant Center Reports API. The
+        request uses the OAuth token associated with the product's
+        ``google_shop`` configuration and queries the last 30 days of
+        performance data for the product's ``google_product_id``.
         """
         for rec in self:
-            rec.google_clicks = 0
-            rec.google_impressions = 0
-            rec.google_ctr = 0.0
+            clicks = 0
+            impressions = 0
+            ctr = 0.0
+
+            if rec.google_product_id and rec.google_shop_id and rec.google_shop_id.oauth_id:
+                oauth = rec.google_shop_id.oauth_id
+                # Refresh the access token if necessary
+                oauth.button_get_token(oauth)
+
+                url = (
+                    f"https://shoppingcontent.googleapis.com/content/v2.1/"
+                    f"{oauth.merchant_id}/reports/search"
+                )
+                payload = {
+                    "dateRange": {
+                        "startDate": (date.today() - timedelta(days=30)).isoformat(),
+                        "endDate": date.today().isoformat(),
+                    },
+                    "dimensions": ["offerId"],
+                    "metrics": ["clicks", "impressions", "ctr"],
+                    "filters": [
+                        {
+                            "dimension": "offerId",
+                            "operator": "equals",
+                            "value": rec.google_product_id,
+                        }
+                    ],
+                }
+                headers = {
+                    "Authorization": "Bearer " + oauth.access_token,
+                    "Content-Type": "application/json",
+                }
+
+                try:
+                    response = requests.post(
+                        url, headers=headers, data=json.dumps(payload), timeout=30
+                    )
+                    if response.status_code == 200:
+                        result = response.json().get("results", [])
+                        if result:
+                            metrics = result[0].get("metricValues", {})
+                            clicks = int(metrics.get("clicks", 0))
+                            impressions = int(metrics.get("impressions", 0))
+                            ctr = float(metrics.get("ctr", 0.0))
+                except Exception as exc:
+                    _logger.error("Failed to fetch Google traffic metrics: %s", exc)
+
+            rec.google_clicks = clicks
+            rec.google_impressions = impressions
+            rec.google_ctr = ctr

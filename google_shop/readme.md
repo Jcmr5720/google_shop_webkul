@@ -20,6 +20,8 @@ Additionally, map the Odoo Product fields to the Google fields in order on the p
 - Map Product Attributes field on Google Merchant Center
 - Add admin email id to notify on OAuth token expiration
 - Delete products from the local and merchant centers simultaneously
+- Display real traffic metrics (clicks, impressions and CTR) for mapped products
+  using Google Merchant Center reports
 
 ## Prerequisites
 
