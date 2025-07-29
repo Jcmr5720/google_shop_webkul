@@ -88,9 +88,7 @@ class ProductGoogleMultiImageBatch(models.Model):
             limit=1,
         )
         if mapping:
-            messages_html = '<ul class="list-unstyled">' + ''.join(
-                f'<li>{m}</li>' for m in image_logs
-            ) + '</ul>'
-            mapping.system_messages = messages_html
+            for log in image_logs:
+                mapping.add_log(log, 'image')
 
         return {'image_ids': image_ids, 'logs': image_logs}

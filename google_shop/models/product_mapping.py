@@ -56,6 +56,21 @@ class ProductMapping(models.Model):
     target_country = fields.Many2one(string="Country", comodel_name="res.country",
                                      required=True)
 
+    log_ids = fields.One2many(
+        comodel_name='product.mapping.log',
+        inverse_name='mapping_id',
+        string='System Message Logs'
+    )
+
+    def add_log(self, message, operation=None):
+        """Create a log record for the current mapping"""
+        for rec in self:
+            self.env['product.mapping.log'].create({
+                'mapping_id': rec.id,
+                'message': message,
+                'operation': operation,
+            })
+
 
     #=== CRUD METHODS ===#
 

@@ -283,10 +283,8 @@ class GoogleMerchantShop(models.Model):
                         log_msgs.append(msg)
 
                     if mapping:
-                        messages_html = '<ul class="list-unstyled">' + ''.join(
-                            f'<li>{m}</li>' for m in log_msgs
-                        ) + '</ul>'
-                        mapping.system_messages = messages_html
+                        for m in log_msgs:
+                            mapping.add_log(m, 'export')
             else:
                 self.shop_status = "done"
                 message = "Well, it seems like your data is on vacation in the Land of Nowhere and having a grand old time sunbathing on the beaches of <b>No Information Island! </b>"
@@ -428,7 +426,12 @@ class GoogleMerchantShop(models.Model):
                     else:
                         self.shop_status = "error"
                         product_id = self.env['product.product'].search([('default_code', '=', response.get("product").get("offerId"))]).id
-                        mapping = self.env['product.mapping'].search([('product_id.id', '=', product_id), ('google_shop_id', '=', self.id,('content_language', '=', content_language), ('target_country', '=', target_country))])
+                        mapping = self.env['product.mapping'].search([
+                            ('product_id.id', '=', product_id),
+                            ('google_shop_id', '=', self.id),
+                            ('content_language', '=', content_language),
+                            ('target_country', '=', target_country),
+                        ])
                         if mapping:
                             mapping.write({
                                 'update_status': False,
@@ -439,10 +442,8 @@ class GoogleMerchantShop(models.Model):
                         log_msgs.append(response['errors']['message'])
 
                     if mapping:
-                        messages_html = '<ul class="list-unstyled">' + ''.join(
-                            f'<li>{m}</li>' for m in log_msgs
-                        ) + '</ul>'
-                        mapping.system_messages = messages_html
+                        for m in log_msgs:
+                            mapping.add_log(m, 'update')
             else:
                 self.shop_status = "done"
                 message = "There is nothing to update"
