@@ -34,7 +34,6 @@ class ProductMappingInheritance(models.Model):
         readonly=True
     )
 
-    # Traffic metrics fields
     google_clicks = fields.Integer(
         string='Clicks',
         compute='_compute_google_traffic',
@@ -96,13 +95,7 @@ class ProductMappingInheritance(models.Model):
 
     @api.depends('product_id')
     def _compute_google_traffic(self):
-        """Compute Google traffic metrics for the product.
 
-        Fetches metrics from Google Merchant Center Reports API. The
-        request uses the OAuth token associated with the product's
-        ``google_shop`` configuration and queries the last 30 days of
-        performance data for the product's ``google_product_id``.
-        """
         for rec in self:
             clicks = 0
             impressions = 0
@@ -110,7 +103,7 @@ class ProductMappingInheritance(models.Model):
 
             if rec.google_product_id and rec.google_shop_id and rec.google_shop_id.oauth_id:
                 oauth = rec.google_shop_id.oauth_id
-                # Refresh the access token if necessary
+
                 oauth.button_get_token(oauth)
 
                 url = (
