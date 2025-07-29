@@ -33,12 +33,15 @@ class ProductGoogleMultiImageBatch(models.Model):
             'imageType': 'additional',
         }
         try:
-            response = requests.post(url, headers=headers, data=json.dumps(data), timeout=30)
+            response = requests.post(
+                url, headers=headers, data=json.dumps(data), timeout=30
+            )
             if response.status_code == 200:
                 resp_json = response.json()
-                return [resp_json.get('id')] if resp_json.get('id') else []
+                # Google may not return an id; treat 200 as success
+                return [resp_json.get("id") or True]
         except Exception as exc:
-            _logger.error('Google additional image upload failed %s', exc)
+            _logger.error("Google additional image upload failed %s", exc)
         return []
 
     def product_google_upload_multi_images(self, google_shop=False, config=False):
@@ -85,6 +88,9 @@ class ProductGoogleMultiImageBatch(models.Model):
             limit=1,
         )
         if mapping:
-            mapping.system_messages = "<br/>".join(image_logs)
+            messages_html = '<ul class="list-unstyled">' + ''.join(
+                f'<li>{m}</li>' for m in image_logs
+            ) + '</ul>'
+            mapping.system_messages = messages_html
 
         return {'image_ids': image_ids, 'logs': image_logs}

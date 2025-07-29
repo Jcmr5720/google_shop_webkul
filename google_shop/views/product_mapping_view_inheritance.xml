@@ -38,8 +38,8 @@
                     </group>
                 </page>
                 <page string="System Messages">
-                    <group>
-                        <field name="system_messages" readonly="True" nolabel="1"/>
+                    <group col="1">
+                        <field name="system_messages" readonly="True" nolabel="1" style="width:100%;"/>
                     </group>
                 </page>
             </xpath>

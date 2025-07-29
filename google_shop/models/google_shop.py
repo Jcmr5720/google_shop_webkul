@@ -283,7 +283,10 @@ class GoogleMerchantShop(models.Model):
                         log_msgs.append(msg)
 
                     if mapping:
-                        mapping.system_messages = '<br/>'.join(log_msgs)
+                        messages_html = '<ul class="list-unstyled">' + ''.join(
+                            f'<li>{m}</li>' for m in log_msgs
+                        ) + '</ul>'
+                        mapping.system_messages = messages_html
             else:
                 self.shop_status = "done"
                 message = "Well, it seems like your data is on vacation in the Land of Nowhere and having a grand old time sunbathing on the beaches of <b>No Information Island! </b>"
@@ -436,7 +439,10 @@ class GoogleMerchantShop(models.Model):
                         log_msgs.append(response['errors']['message'])
 
                     if mapping:
-                        mapping.system_messages = '<br/>'.join(log_msgs)
+                        messages_html = '<ul class="list-unstyled">' + ''.join(
+                            f'<li>{m}</li>' for m in log_msgs
+                        ) + '</ul>'
+                        mapping.system_messages = messages_html
             else:
                 self.shop_status = "done"
                 message = "There is nothing to update"
