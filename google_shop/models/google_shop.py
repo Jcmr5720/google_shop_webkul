@@ -221,37 +221,68 @@ class GoogleMerchantShop(models.Model):
                         product_status = 'error'
                         msg = response['errors']['message']
                         google_product_ids = None
-                    product_id=self.env['product.product'].search([('default_code','=',response.get("product").get("offerId"))])
+
+                    product_id = self.env['product.product'].search([
+                        ('default_code', '=', response.get('product').get('offerId'))
+                    ])
+
+                    log_msgs = []
+                    mapping = False
+
                     if response['batchId'] in JUNKMAPPING:
-                      
-                        self.env['product.mapping'].search([('product_id','=',product_id)], limit=1).write({
-                            'update_status': update_status,
-                            'product_status': product_status,
-                            'message': msg,
-                            'google_product_id': google_product_ids})
+                        mapping = self.env['product.mapping'].search([
+                            ('product_id', '=', product_id.id)
+                        ], limit=1)
+                        if mapping:
+                            mapping.write({
+                                'update_status': update_status,
+                                'product_status': product_status,
+                                'message': msg,
+                                'google_product_id': google_product_ids,
+                            })
                     else:
-                        # country=self.env['res.country'].search([('code','=',response.get('targetCountry'))])
-                        if response.get("product"):
-                            target_country=self.env['res.country'].search([('code','=',response.get("product").get("targetCountry"))]).id
-                            
-                            country = self.target_country_ids.filtered(lambda line: line.target_country.id == target_country)
-                            if self.target_country.id==target_country:
-                                content_language=self.content_language.id
+                        if response.get('product'):
+                            target_country = self.env['res.country'].search([
+                                ('code', '=', response.get('product').get('targetCountry'))
+                            ]).id
+
+                            country = self.target_country_ids.filtered(
+                                lambda line: line.target_country.id == target_country
+                            )
+                            if self.target_country.id == target_country:
+                                content_language = self.content_language.id
                             else:
-                                content_language=country.content_language.id
-                           
-                           
-                            self.env['product.mapping'].create({
+                                content_language = country.content_language.id
+
+                            mapping = self.env['product.mapping'].create({
                                 'google_shop_id': self.id,
                                 'product_id': product_id.id,
                                 'update_status': update_status,
                                 'product_status': product_status,
                                 'message': msg,
-                                'target_country':target_country,
-                                'content_language':content_language,
-                                'google_product_id': google_product_ids})
+                                'target_country': target_country,
+                                'content_language': content_language,
+                                'google_product_id': google_product_ids,
+                            })
+
                     if update_status:
+                        log_msgs.extend([
+                            _('Link set'),
+                            _('Description sent'),
+                        ])
+
+                        upload_res = product_id.product_google_upload_multi_images(
+                            google_shop=self
+                        )
+                        if isinstance(upload_res, dict):
+                            log_msgs += upload_res.get('logs', [])
+
                         done_count += 1
+                    else:
+                        log_msgs.append(msg)
+
+                    if mapping:
+                        mapping.system_messages = '<br/>'.join(log_msgs)
             else:
                 self.shop_status = "done"
                 message = "Well, it seems like your data is on vacation in the Land of Nowhere and having a grand old time sunbathing on the beaches of <b>No Information Island! </b>"
