@@ -266,6 +266,7 @@ class GoogleMerchantShop(models.Model):
                             })
 
                     if update_status:
+                        log_msgs.append(msg)
                         log_msgs.extend([
                             _('Link set'),
                             _('Description sent'),
@@ -396,28 +397,46 @@ class GoogleMerchantShop(models.Model):
             if 'entries' in call_response.keys():
                 all_products_response = call_response['entries']
                 for response in all_products_response:
-                    
+
                     total_product += 1
-                    target_country=self.env['res.country'].search([('code','=',response.get("product").get("targetCountry"))]).id
+                    target_country = self.env['res.country'].search([('code', '=', response.get("product").get("targetCountry"))]).id
                     if self.target_country:
-                        content_language=self.content_language.id
+                        content_language = self.content_language.id
                     else:
-                        content_language=country.content_language.id
+                        content_language = country.content_language.id
+
+                    log_msgs = []
+                    mapping = False
+
                     if 'kind' and 'batchID' and 'product' in response.keys():
-                        self.env['product.mapping'].search([('google_product_id', '=', response['product']['id']), ('google_shop_id', '=', self.id)]).write({
-                            'update_status': True,
-                            'product_status': 'updated',
-                            'message': "Product id updated Successfully",
-                            'google_product_id': response['product']['id']})
+                        mapping = self.env['product.mapping'].search([
+                            ('google_product_id', '=', response['product']['id']),
+                            ('google_shop_id', '=', self.id)
+                        ], limit=1)
+                        if mapping:
+                            mapping.write({
+                                'update_status': True,
+                                'product_status': 'updated',
+                                'message': "Product id updated Successfully",
+                                'google_product_id': response['product']['id']
+                            })
+                        log_msgs.append(_("Product id updated Successfully"))
                         done_count += 1
                     else:
                         self.shop_status = "error"
-                        product_id=self.env['product.product'].search([('default_code','=',response.get("product").get("offerId"))]).id
-                        self.env['product.mapping'].search([('product_id.id', '=', product_id), ('google_shop_id', '=', self.id,('content_language', '=', content_language), ('target_country', '=', target_country))]).write({
-                            'update_status': False,
-                            'product_status': 'error',
-                            'message': response['errors']['message'],
-                            'google_product_id': None})
+                        product_id = self.env['product.product'].search([('default_code', '=', response.get("product").get("offerId"))]).id
+                        mapping = self.env['product.mapping'].search([('product_id.id', '=', product_id), ('google_shop_id', '=', self.id,('content_language', '=', content_language), ('target_country', '=', target_country))])
+                        if mapping:
+                            mapping.write({
+                                'update_status': False,
+                                'product_status': 'error',
+                                'message': response['errors']['message'],
+                                'google_product_id': None
+                            })
+                        log_msgs.append(response['errors']['message'])
+
+                    if mapping:
+                        mapping.system_messages = '<br/>'.join(log_msgs)
             else:
                 self.shop_status = "done"
                 message = "There is nothing to update"
