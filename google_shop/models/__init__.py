@@ -25,3 +25,4 @@ from . import product
 from . import product_inheritance
 from . import res_config_settings
 from . import target_country
+from . import product_mapping_log

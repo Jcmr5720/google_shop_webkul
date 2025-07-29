@@ -6,6 +6,7 @@ user_field_mapping_user,field_mapping_user,model_field_mapping,google_shop.googl
 user_google_fields_user,google_fields_user,model_google_fields,google_shop.google_shop_user_group,1,1,1,0
 user_google_shop_user,google_shop_user,model_google_shop,google_shop.google_shop_user_group,1,1,1,0
 user_product_mapping_user,product_mapping_user,model_product_mapping,google_shop.google_shop_user_group,1,1,1,1
+user_product_mapping_log_user,product_mapping_log_user,model_product_mapping_log,google_shop.google_shop_user_group,1,0,0,0
 
 
 admin_oauth2_detail_manager,oauth2_detail_Manager,model_oauth2_detail,sales_team.group_sale_manager,1,1,1,1
@@ -14,6 +15,7 @@ admin_field_mapping_manager,field_mapping_Manager,model_field_mapping,sales_team
 admin_google_fields_manager,google_fields_Manager,model_google_fields,sales_team.group_sale_manager,1,1,1,1
 admin_google_shop_manager,google_shop_Manager,model_google_shop,sales_team.group_sale_manager,1,1,1,1
 admin_product_mapping_manager,product_mapping_Manager,model_product_mapping,sales_team.group_sale_manager,1,1,1,1
+admin_product_mapping_log_manager,product_mapping_log_Manager,model_product_mapping_log,sales_team.group_sale_manager,1,1,1,1
 admin_product_update_status_manager,product_update_Manager,model_product_status,sales_team.group_sale_manager,1,1,1,1
 
 admin_google_shop_debug_manager,access_google_shop_debug,model_google_shop_debug,sales_team.group_sale_manager,1,1,1,1

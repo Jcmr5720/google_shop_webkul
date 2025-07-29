@@ -49,7 +49,11 @@ class ProductMappingInheritance(models.Model):
         compute='_compute_google_traffic',
         readonly=True
     )
-    system_messages = fields.Html(string='System Messages')
+    system_messages = fields.Html(
+        string='System Messages',
+        compute='_compute_system_messages',
+        readonly=True
+    )
 
     @api.depends('product_id')
     def _compute_additional_images(self):
@@ -148,3 +152,10 @@ class ProductMappingInheritance(models.Model):
             rec.google_clicks = clicks
             rec.google_impressions = impressions
             rec.google_ctr = ctr
+
+    def _compute_system_messages(self):
+        for rec in self:
+            html = '<ul class="list-unstyled">' + ''.join(
+                f'<li>{log.message}</li>' for log in rec.log_ids.sorted('date')
+            ) + '</ul>' if rec.log_ids else ''
+            rec.system_messages = html
