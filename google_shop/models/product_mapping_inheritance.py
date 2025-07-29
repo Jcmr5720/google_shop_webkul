@@ -50,6 +50,7 @@ class ProductMappingInheritance(models.Model):
         compute='_compute_google_traffic',
         readonly=True
     )
+    system_messages = fields.Html(string='System Messages')
 
     @api.depends('product_id')
     def _compute_additional_images(self):

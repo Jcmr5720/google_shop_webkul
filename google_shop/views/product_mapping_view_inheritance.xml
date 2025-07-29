@@ -37,6 +37,11 @@
                         <field name="google_ctr" readonly="True"/>
                     </group>
                 </page>
+                <page string="System Messages">
+                    <group>
+                        <field name="system_messages" readonly="True" nolabel="1"/>
+                    </group>
+                </page>
             </xpath>
         </field>
     </record>
