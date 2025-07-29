@@ -22,5 +22,6 @@ from . import field_mapping_line
 from . import product_mapping
 from . import product_mapping_inheritance
 from . import product
+from . import product_inheritance
 from . import res_config_settings
 from . import target_country
